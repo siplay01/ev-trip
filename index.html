@@ -100,7 +100,7 @@ var P = [
  {id:"eaSM", n:"Electrify America, Santa Maria (Target)", t:"ea", mile:143, min:155, kw:350, stalls:4, p:0.56, d:"Target lot, restaurants nearby", q:"223 E Betteravia Rd, Santa Maria, CA 93454"},
  {id:"nissanSM", n:"Santa Maria Nissan", t:"dc", mile:141, min:153, kw:50, stalls:1, p:0, d:"Dealer hours only", q:"1001 E Battles Rd, Santa Maria, CA 93454"},
  {id:"evgoSM", n:"EVgo, Santa Maria (Crossroads)", t:"dc", mile:143, min:155, kw:350, stalls:8, p:0.56, d:"Shopping center", q:"2118 S Bradley Rd, Santa Maria, CA 93455"},
- {id:"eaPismo", n:"Electrify America, Pismo Beach (Premium Outlets)", t:"ea", mile:160, min:172, kw:350, stalls:4, p:0.64, d:"Outlet mall", q:"333 Five Cities Dr, Pismo Beach, CA 93449"},
+ {id:"eaPismo", n:"Electrify America, Pismo Beach (Premium Outlets)", t:"ea", mile:160, min:172, kw:350, stalls:4, p:0.64, d:"Outlet mall to walk, restaurants around it", q:"333 Five Cities Dr, Pismo Beach, CA 93449"},
  {id:"teslaAG", n:"Tesla Supercharger, Arroyo Grande", t:"dc", mile:162, min:174, kw:325, stalls:48, p:0.60, d:"Needs NACS adapter", q:"1160 W Branch St, Arroyo Grande, CA 93420"},
  {id:"eaSLO", n:"Electrify America, San Luis Obispo (Costco)", t:"ea", mile:176, min:190, kw:350, stalls:10, p:0.61, d:"Restroom and food in Costco", q:"1540 Froom Ranch Way, San Luis Obispo, CA 93405"},
  {id:"sloRanch", n:"SLO Ranch Farms & Marketplace", t:"l2", mile:176, min:189, kw:7, stalls:8, p:0, d:"Slow, next to Costco", q:"865 Froom Ranch Way, San Luis Obispo, CA 93405"},
@@ -114,12 +114,12 @@ var P = [
 ];
 var byId = {}; P.forEach(function(p){byId[p.id]=p;});
 var DEF = {dep:"08:30", eff:2.5, batt:105.2, start:100, reserve:15, carkw:195, napA:"12:00", napB:"15:00", ea:true,
-  stops:[{id:"lookout",dur:30},{id:"eaSM",dur:40,to:95}]};
+  stops:[{id:"eaPismo",dur:45,to:90}]};
 var S;
 
-var STD=[{id:"lookout",dur:30},{id:"eaSM",dur:40,to:95}];
-var PRESETS = {"630":{dep:"06:30",stops:[{id:"eaSM",dur:30,to:90},{id:"kingcity",dur:15}]}};
-["0730","0800","0830","0900","0930","1000"].forEach(function(k){ PRESETS[String(+k)] = {dep:k.slice(0,2)+":"+k.slice(2), stops:STD}; });
+var STD=[{id:"eaPismo",dur:45,to:90}];
+var PRESETS = {};
+["0630","0730","0800","0830","0900","0930","1000"].forEach(function(k){ PRESETS[String(+k)] = {dep:k.slice(0,2)+":"+k.slice(2), stops:STD}; });
 function load(){
   var k = location.hash.slice(1);
   if (PRESETS[k]) { S = Object.assign(JSON.parse(JSON.stringify(DEF)), JSON.parse(JSON.stringify(PRESETS[k]))); return; }
