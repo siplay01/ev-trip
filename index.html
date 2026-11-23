@@ -116,7 +116,13 @@ var DEF = {dep:"07:45", eff:2.5, batt:105.2, start:100, reserve:15, carkw:195, n
   stops:[{id:"lookout",dur:30},{id:"eaSLO",dur:40,to:90}]};
 var S;
 
+var PRESETS = {
+  "930": {dep:"09:30", stops:[{id:"eaSB",dur:40,to:95},{id:"eaSol",dur:20,to:60}]},
+  "900": {dep:"09:00", stops:[{id:"lookout",dur:30},{id:"eaSB",dur:40,to:95},{id:"eaSol",dur:20,to:60}]}
+};
 function load(){
+  var k = location.hash.slice(1);
+  if (PRESETS[k]) { S = Object.assign(JSON.parse(JSON.stringify(DEF)), JSON.parse(JSON.stringify(PRESETS[k]))); return; }
   try { if (location.hash.length>1) { S = JSON.parse(decodeURIComponent(atob(location.hash.slice(1)))); return; } } catch(e){}
   S = JSON.parse(JSON.stringify(DEF));
 }
