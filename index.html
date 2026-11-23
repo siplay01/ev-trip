@@ -50,7 +50,30 @@ td,th{border-bottom:1px solid var(--line);padding:5px 4px;text-align:left;vertic
 <body>
 <main>
 <h1>Los Angeles &rarr; Carmel-by-the-Sea, by EV</h1>
-<p class="mut">US-101 coast route. Use &minus; and + to adjust.</p>
+<h2>Fastest: I-5 at ~80 mph</h2>
+<div class="card"><div class="time">8:30 AM leave</div><div class="mut">I-5 &rarr; CA-46 &rarr; US-101 &middot; 312 mi</div></div>
+<div class="card"><div class="time">~11:20 &ndash; 11:45 AM &middot; 25 min</div><div class="place">Electrify America, Paso Robles</div>
+<div class="addr">1511 Spring St, Paso Robles, CA 93446<br><a href="https://maps.apple.com/?q=1511%20Spring%20St%2C%20Paso%20Robles%2C%20CA%2093446">Apple Maps</a> &middot; <a href="https://www.google.com/maps/search/?api=1&amp;query=1511%20Spring%20St%2C%20Paso%20Robles%2C%20CA%2093446">Google Maps</a></div>
+<div class="mut">Downtown, park with playground and restaurants nearby</div><div class="bat">Battery ~12% &rarr; 60%</div></div>
+<div class="card"><div class="time">~1:25 PM arrive</div><div class="place">Carmel-by-the-Sea</div><div class="bat">Battery ~9%, charge in Carmel</div></div>
+<a class="btn" href="https://maps.apple.com/directions?destination=Ocean%20Ave%2C%20Carmel-by-the-Sea%2C%20CA%2093921&amp;waypoint=1511%20Spring%20St%2C%20Paso%20Robles%2C%20CA%2093446&amp;mode=driving">Apple Maps (I-5 via Paso Robles)</a>
+<a class="btn btn2" href="https://www.google.com/maps/dir/?api=1&amp;destination=Ocean+Ave+Carmel-by-the-Sea+CA&amp;waypoints=1511+Spring+St+Paso+Robles+CA&amp;travelmode=driving">Google Maps (I-5 via Paso Robles)</a>
+<details><summary>Speed vs arrival (I-5, leave 8:30)</summary>
+<div class="tw"><table>
+<tr><th>mph</th><th>mi/kWh</th><th>Driving</th><th>Charging stops</th><th>Arrive</th></tr>
+<tr><td>60</td><td>3.0</td><td>5:32</td><td>Paso 7 min</td><td>2:08</td></tr>
+<tr><td>70</td><td>2.5</td><td>4:56</td><td>Paso 12 min</td><td>1:38</td></tr>
+<tr><td><b>80</b></td><td><b>2.1</b></td><td><b>4:29</b></td><td><b>Paso 20 min</b></td><td><b>1:18</b></td></tr>
+<tr><td>90</td><td>1.75</td><td>4:08</td><td>Lost Hills + Paso, 32 min</td><td>1:10</td></tr>
+<tr><td>100</td><td>1.5</td><td>3:52</td><td>Lost Hills + Paso, 42 min</td><td>1:03</td></tr>
+<tr><td>110</td><td>1.25</td><td>3:38</td><td>3 stops, 53 min</td><td>1:01</td></tr>
+<tr><td>120</td><td>1.1</td><td>3:27</td><td>3 stops, 65 min</td><td>1:01</td></tr>
+</table></div>
+<p class="mut">Charging only as much as needed to reach Carmel with 3%. Above 80 mph the extra charging eats the time saved. No traffic; Google expects up to +1 h on Monday morning. Estimates &plusmn;10%.</p>
+</details>
+
+<h2>US-101 coast route</h2>
+<p class="mut">Use &minus; and + to adjust.</p>
 <div class="row" id="presets"><span class="mut">Leave at:</span></div>
 
 <details>
