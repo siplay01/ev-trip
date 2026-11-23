@@ -112,11 +112,12 @@ var P = [
  {id:"end", n:"Carmel-by-the-Sea", mile:327, min:345, q:"Ocean Ave, Carmel-by-the-Sea, CA 93921"}
 ];
 var byId = {}; P.forEach(function(p){byId[p.id]=p;});
-var DEF = {dep:"09:30", eff:2.5, batt:105.2, start:100, reserve:15, carkw:195, napA:"12:00", napB:"15:00", ea:true,
-  stops:[{id:"eaSB",dur:40,to:95},{id:"eaSol",dur:20,to:60}]};
+var DEF = {dep:"08:00", eff:2.5, batt:105.2, start:100, reserve:15, carkw:195, napA:"12:00", napB:"15:00", ea:true,
+  stops:[{id:"lookout",dur:30},{id:"eaSM",dur:40,to:95}]};
 var S;
 
 var PRESETS = {
+  "800": {dep:"08:00", stops:[{id:"lookout",dur:30},{id:"eaSM",dur:40,to:95}]},
   "930": {dep:"09:30", stops:[{id:"eaSB",dur:40,to:95},{id:"eaSol",dur:20,to:60}]},
   "900": {dep:"09:00", stops:[{id:"lookout",dur:30},{id:"eaSB",dur:40,to:95},{id:"eaSol",dur:20,to:60}]}
 };
