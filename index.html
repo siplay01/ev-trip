@@ -44,6 +44,7 @@ summary{font-weight:600;cursor:pointer}
 table{border-collapse:collapse;width:100%;font-size:.85em}
 td,th{border-bottom:1px solid var(--line);padding:5px 4px;text-align:left;vertical-align:top}
 .tw{overflow-x:auto}
+.addr{font-size:.88em;margin:2px 0 4px}
 </style>
 </head>
 <body>
@@ -164,8 +165,13 @@ function render(){
   links(); addList();
 }
 
+function addr(q){
+  var e=encodeURIComponent(q);
+  return '<div class="addr">'+q+'<br><a href="https://maps.apple.com/?q='+e+'">Apple Maps</a> &middot; <a href="https://www.google.com/maps/search/?api=1&amp;query='+e+'">Google Maps</a></div>';
+}
 function card(id, time, place, bat, warn, c){
   var h = '<div class="card"><div class="time">'+time+'</div><div class="place">'+place+'</div>';
+  if (id!=="start" && byId[id].q) h += addr(byId[id].q);
   if (c && c.p.d) h += '<div class="mut">'+c.p.d+'</div>';
   h += '<div class="bat">'+bat+'</div>';
   if (c && c.extra) h += '<div class="mut">'+c.extra+'</div>';
@@ -196,7 +202,7 @@ function catalog(){
   var h = "<tr><th>Mile</th><th>Stop</th><th>Type</th><th>Price</th></tr>";
   P.forEach(function(p){ if (!p.t) return;
     var ty = p.t==="play"?"Park / break": (p.t==="ea"?"Electrify America":p.t==="l2"?"Level 2 (slow)":"Fast charger")+" &middot; "+p.kw+" kW &middot; "+p.stalls+" "+(p.t==="l2"?"ports":"stalls");
-    h += "<tr><td>"+p.mile+"</td><td>"+p.n+"<br><span class='mut'>"+p.d+"</span></td><td>"+ty+"</td><td>"+(p.p===0?"<b>Free</b>":p.p!=null?"$"+p.p.toFixed(2)+"/kWh":"&ndash;")+"</td></tr>"; });
+    h += "<tr><td>"+p.mile+"</td><td>"+p.n+"<br><span class='mut'>"+p.d+"</span>"+addr(p.q)+"</td><td>"+ty+"</td><td>"+(p.p===0?"<b>Free</b>":p.p!=null?"$"+p.p.toFixed(2)+"/kWh":"&ndash;")+"</td></tr>"; });
   document.getElementById("cat").innerHTML = h;
 }
 
