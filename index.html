@@ -51,6 +51,7 @@ td,th{border-bottom:1px solid var(--line);padding:5px 4px;text-align:left;vertic
 <main>
 <h1>Los Angeles &rarr; Carmel-by-the-Sea, by EV</h1>
 <p class="mut">US-101 coast route. Use &minus; and + to adjust.</p>
+<div class="row" id="presets"><span class="mut">Leave at:</span></div>
 
 <details>
 <summary>Car and trip settings</summary>
@@ -112,15 +113,13 @@ var P = [
  {id:"end", n:"Carmel-by-the-Sea", mile:327, min:345, q:"Ocean Ave, Carmel-by-the-Sea, CA 93921"}
 ];
 var byId = {}; P.forEach(function(p){byId[p.id]=p;});
-var DEF = {dep:"08:00", eff:2.5, batt:105.2, start:100, reserve:15, carkw:195, napA:"12:00", napB:"15:00", ea:true,
+var DEF = {dep:"08:30", eff:2.5, batt:105.2, start:100, reserve:15, carkw:195, napA:"12:00", napB:"15:00", ea:true,
   stops:[{id:"lookout",dur:30},{id:"eaSM",dur:40,to:95}]};
 var S;
 
-var PRESETS = {
-  "800": {dep:"08:00", stops:[{id:"lookout",dur:30},{id:"eaSM",dur:40,to:95}]},
-  "930": {dep:"09:30", stops:[{id:"eaSB",dur:40,to:95},{id:"eaSol",dur:20,to:60}]},
-  "900": {dep:"09:00", stops:[{id:"lookout",dur:30},{id:"eaSB",dur:40,to:95},{id:"eaSol",dur:20,to:60}]}
-};
+var STD=[{id:"lookout",dur:30},{id:"eaSM",dur:40,to:95}];
+var PRESETS = {"630":{dep:"06:30",stops:[{id:"eaSM",dur:30,to:90},{id:"kingcity",dur:15}]}};
+["0730","0800","0830","0900","0930","1000"].forEach(function(k){ PRESETS[String(+k)] = {dep:k.slice(0,2)+":"+k.slice(2), stops:STD}; });
 function load(){
   var k = location.hash.slice(1);
   if (PRESETS[k]) { S = Object.assign(JSON.parse(JSON.stringify(DEF)), JSON.parse(JSON.stringify(PRESETS[k]))); return; }
@@ -239,6 +238,12 @@ document.getElementById("copy").addEventListener("click", function(){
 document.getElementById("reset").addEventListener("click", function(){ S=JSON.parse(JSON.stringify(DEF)); fill(); render(); });
 
 function fill(){ ["dep","eff","batt","start","reserve","carkw","napA","napB"].forEach(function(k){ document.getElementById(k).value=S[k]; }); document.getElementById("ea").checked=!!S.ea; }
+Object.keys(PRESETS).sort(function(a,b){return a-b;}).forEach(function(k){
+  var b=document.createElement("button"), d=PRESETS[k].dep.split(":");
+  b.textContent=(+d[0])+":"+d[1];
+  b.addEventListener("click",function(){ S=Object.assign(JSON.parse(JSON.stringify(DEF)), JSON.parse(JSON.stringify(PRESETS[k]))); fill(); render(); });
+  document.getElementById("presets").appendChild(b);
+});
 load(); fill(); catalog(); render();
 </script>
 </body>
