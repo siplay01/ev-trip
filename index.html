@@ -50,8 +50,7 @@ td,th{border-bottom:1px solid var(--line);padding:5px 4px;text-align:left;vertic
 <body>
 <main>
 <h1>Los Angeles &rarr; Carmel-by-the-Sea, by EV</h1>
-<p class="mut"><a href="https://siplay01.github.io/chargers/">Free EV chargers around LA (separate map) &rarr;</a></p>
-<p class="mut">US-101 coast route. Change the start time, stop lengths and charging stops; the times and battery update below. Your changes are saved in the page link, so you can share your version.</p>
+<p class="mut">US-101 coast route. Use &minus; and + to adjust.</p>
 
 <details>
 <summary>Car and trip settings</summary>
@@ -66,7 +65,7 @@ td,th{border-bottom:1px solid var(--line);padding:5px 4px;text-align:left;vertic
 <label>to<input type="time" id="napB"></label>
 </div>
 <label class="chk"><input type="checkbox" id="ea"> Electrify America charging is free for me (car-maker credit)</label>
-<p class="mut">Defaults: 2025 BMW iX xDrive50 (105.2 kWh usable), planned at 2.5 mi/kWh. Charge times use a simplified charging curve and are estimates.</p>
+<p class="mut">BMW iX xDrive50. Charge times are estimates.</p>
 </details>
 
 <div class="sum" id="sum"></div>
@@ -84,36 +83,37 @@ td,th{border-bottom:1px solid var(--line);padding:5px 4px;text-align:left;vertic
 
 <h2>All stops on this route</h2>
 <div class="tw"><table id="cat"></table></div>
-<p class="mut">Prices are for non-Tesla, non-member drivers, as published by the networks and tracked by dcfctracker.com and kilowattindex.com on Nov 21&ndash;22, 2026 (Valta: ChargePoint data, May 2026). Check the network app before charging. Tesla Superchargers need a NACS adapter approved by your car maker. Drive times are typical estimates, not live traffic.</p>
+<p class="mut">Prices as of Nov 22, 2026. Drive times without traffic.</p>
+<p class="mut"><a href="https://siplay01.github.io/chargers/">Free chargers around LA</a></p>
 </main>
 
 <script>
 // Catalog: mile = miles from start along US-101; min = typical non-stop drive minutes from start.
 var P = [
  {id:"start", n:"Los Angeles (San Fernando Valley)", mile:0, min:0, q:"Los Angeles, CA"},
- {id:"ladwpVN", n:"LADWP Van Nuys (free fast charging, Shell Recharge)", t:"dc", mile:4, min:10, kw:50, stalls:4, p:0, d:"City utility site, 4 CCS 50 kW, free per DOE data (last confirmed Nov 2025); about 4 mi off US-101", q:"6550 Van Nuys Blvd, Van Nuys, CA 91401"},
+ {id:"ladwpVN", n:"LADWP Van Nuys", t:"dc", mile:4, min:10, kw:50, stalls:4, p:0, d:"City utility, 4 mi off US-101", q:"6550 Van Nuys Blvd, Van Nuys, CA 91401"},
  {id:"lookout", n:"Lookout Park, Summerland", t:"play", mile:78, min:90, d:"Playground, restrooms, ocean view", q:"Lookout County Park, Summerland, CA 93067"},
- {id:"eaSB", n:"Electrify America, Santa Barbara (Carrillo St)", t:"ea", mile:85, min:98, kw:350, stalls:20, p:0.76, d:"Downtown, 20 stalls", q:"36 W Carrillo St, Santa Barbara, CA 93101"},
+ {id:"eaSB", n:"Electrify America, Santa Barbara (Carrillo St)", t:"ea", mile:85, min:98, kw:350, stalls:20, p:0.76, d:"Downtown", q:"36 W Carrillo St, Santa Barbara, CA 93101"},
  {id:"buellton", n:"River View Park, Buellton", t:"play", mile:127, min:140, d:"Two playgrounds, restrooms; food 1 mi", q:"River View Park, 151 Sycamore Dr, Buellton, CA 93427"},
  {id:"eaLA", n:"Electrify America, Los Alamos", t:"ea", mile:129, min:142, kw:350, stalls:4, p:0.72, d:"Small town, cafes on Bell St", q:"515 Bell St, Los Alamos, CA 93440"},
  {id:"eaSM", n:"Electrify America, Santa Maria (Target)", t:"ea", mile:143, min:155, kw:350, stalls:4, p:0.56, d:"Target lot, restaurants nearby", q:"223 E Betteravia Rd, Santa Maria, CA 93454"},
- {id:"nissanSM", n:"Santa Maria Nissan (free fast charger, dealer hours)", t:"dc", mile:141, min:153, kw:50, stalls:1, p:0, d:"1 CCS ~50 kW, free per DOE data, dealership business hours; ask staff first", q:"1001 E Battles Rd, Santa Maria, CA 93454"},
- {id:"evgoSM", n:"EVgo, Santa Maria (Crossroads)", t:"dc", mile:143, min:155, kw:350, stalls:8, p:0.56, d:"Shopping center; possible $0.99 session fee", q:"2118 S Bradley Rd, Santa Maria, CA 93455"},
+ {id:"nissanSM", n:"Santa Maria Nissan", t:"dc", mile:141, min:153, kw:50, stalls:1, p:0, d:"Dealer hours only", q:"1001 E Battles Rd, Santa Maria, CA 93454"},
+ {id:"evgoSM", n:"EVgo, Santa Maria (Crossroads)", t:"dc", mile:143, min:155, kw:350, stalls:8, p:0.56, d:"Shopping center", q:"2118 S Bradley Rd, Santa Maria, CA 93455"},
  {id:"eaPismo", n:"Electrify America, Pismo Beach (Premium Outlets)", t:"ea", mile:160, min:172, kw:350, stalls:4, p:0.64, d:"Outlet mall", q:"333 Five Cities Dr, Pismo Beach, CA 93449"},
- {id:"teslaAG", n:"Tesla Supercharger, Arroyo Grande", t:"dc", mile:162, min:174, kw:325, stalls:48, p:0.60, d:"48 stalls; needs NACS adapter", q:"1160 W Branch St, Arroyo Grande, CA 93420"},
- {id:"eaSLO", n:"Electrify America, San Luis Obispo (Costco)", t:"ea", mile:176, min:190, kw:350, stalls:10, p:0.61, d:"10 stalls, restroom and food in Costco", q:"1540 Froom Ranch Way, San Luis Obispo, CA 93405"},
- {id:"sloRanch", n:"SLO Ranch Farms & Marketplace (free Level 2)", t:"l2", mile:176, min:189, kw:7, stalls:8, p:0, d:"8 J1772 ports listed as open to all vehicles; slow (~7 kW, ~7 kWh per hour); same street as Costco", q:"865 Froom Ranch Way, San Luis Obispo, CA 93405"},
- {id:"valta", n:"Santa Rosa Park, San Luis Obispo (Valta chargers)", t:"dc", mile:178, min:194, kw:62.5, stalls:4, p:0.21, d:"City park, playground, restrooms; $0.21/kWh 9am-2pm (May 2026 data)", q:"1050 Oak St, San Luis Obispo, CA 93405"},
+ {id:"teslaAG", n:"Tesla Supercharger, Arroyo Grande", t:"dc", mile:162, min:174, kw:325, stalls:48, p:0.60, d:"Needs NACS adapter", q:"1160 W Branch St, Arroyo Grande, CA 93420"},
+ {id:"eaSLO", n:"Electrify America, San Luis Obispo (Costco)", t:"ea", mile:176, min:190, kw:350, stalls:10, p:0.61, d:"Restroom and food in Costco", q:"1540 Froom Ranch Way, San Luis Obispo, CA 93405"},
+ {id:"sloRanch", n:"SLO Ranch Farms & Marketplace", t:"l2", mile:176, min:189, kw:7, stalls:8, p:0, d:"Slow, next to Costco", q:"865 Froom Ranch Way, San Luis Obispo, CA 93405"},
+ {id:"valta", n:"Santa Rosa Park, San Luis Obispo (Valta)", t:"dc", mile:178, min:194, kw:62.5, stalls:4, p:0.21, d:"Playground, restrooms; $0.21 price 9am-2pm", q:"1050 Oak St, San Luis Obispo, CA 93405"},
  {id:"eaAtas", n:"Electrify America, Atascadero (Mission Oaks)", t:"ea", mile:200, min:216, kw:350, stalls:4, p:0.64, d:"Shopping center", q:"2050 El Camino Real, Atascadero, CA 93422"},
  {id:"eaPaso", n:"Electrify America, Paso Robles (downtown)", t:"ea", mile:206, min:222, kw:350, stalls:4, p:0.64, d:"Downtown Spring St", q:"1511 Spring St, Paso Robles, CA 93446"},
- {id:"kingcity", n:"San Lorenzo Park, King City", t:"play", mile:259, min:274, d:"Playgrounds, lawn, river trail; open 8am-5pm in Nov", q:"San Lorenzo Park, King City, CA 93930"},
+ {id:"kingcity", n:"San Lorenzo Park, King City", t:"play", mile:259, min:274, d:"Playgrounds; open 8am-5pm", q:"San Lorenzo Park, King City, CA 93930"},
  {id:"eaSol", n:"Electrify America, Soledad (Foods Co)", t:"ea", mile:278, min:292, kw:350, stalls:4, p:0.64, d:"Grocery store lot", q:"2443 H De La Rosa Sr St, Soledad, CA 93960"},
  {id:"eaCarmel", n:"Electrify America, Carmel (The Barnyard)", t:"ea", mile:325, min:340, kw:350, stalls:10, p:0.68, d:"Shopping village with restaurants", q:"26400 Carmel Rancho Ln, Carmel, CA 93923"},
  {id:"end", n:"Carmel-by-the-Sea", mile:327, min:345, q:"Ocean Ave, Carmel-by-the-Sea, CA 93921"}
 ];
 var byId = {}; P.forEach(function(p){byId[p.id]=p;});
-var DEF = {dep:"07:45", eff:2.5, batt:105.2, start:100, reserve:15, carkw:195, napA:"12:00", napB:"15:00", ea:true,
-  stops:[{id:"lookout",dur:30},{id:"eaSLO",dur:40,to:90}]};
+var DEF = {dep:"09:30", eff:2.5, batt:105.2, start:100, reserve:15, carkw:195, napA:"12:00", napB:"15:00", ea:true,
+  stops:[{id:"eaSB",dur:40,to:95},{id:"eaSol",dur:20,to:60}]};
 var S;
 
 var PRESETS = {
@@ -172,8 +172,9 @@ function render(){
 }
 
 function addr(q){
-  var e=encodeURIComponent(q);
-  return '<div class="addr">'+q+'<br><a href="https://maps.apple.com/?q='+e+'">Apple Maps</a> &middot; <a href="https://www.google.com/maps/search/?api=1&amp;query='+e+'">Google Maps</a></div>';
+  var e=encodeURIComponent(q), s=q.split(", ");
+  if (!/^\d/.test(s[0]) && s.length>2) s.shift();
+  return '<div class="addr">'+s.join(", ")+'<br><a href="https://maps.apple.com/?q='+e+'">Apple Maps</a> &middot; <a href="https://www.google.com/maps/search/?api=1&amp;query='+e+'">Google Maps</a></div>';
 }
 function card(id, time, place, bat, warn, c){
   var h = '<div class="card"><div class="time">'+time+'</div><div class="place">'+place+'</div>';
@@ -207,7 +208,7 @@ function addList(){
 function catalog(){
   var h = "<tr><th>Mile</th><th>Stop</th><th>Type</th><th>Price</th></tr>";
   P.forEach(function(p){ if (!p.t) return;
-    var ty = p.t==="play"?"Park / break": (p.t==="ea"?"Electrify America":p.t==="l2"?"Level 2 (slow)":"Fast charger")+" &middot; "+p.kw+" kW &middot; "+p.stalls+" "+(p.t==="l2"?"ports":"stalls");
+    var ty = p.t==="play"?"Park / break": (p.t==="l2"?"Slow":"Fast")+" &middot; "+p.kw+" kW &middot; "+p.stalls+" "+(p.t==="l2"?"ports":"stalls");
     h += "<tr><td>"+p.mile+"</td><td>"+p.n+"<br><span class='mut'>"+p.d+"</span>"+addr(p.q)+"</td><td>"+ty+"</td><td>"+(p.p===0?"<b>Free</b>":p.p!=null?"$"+p.p.toFixed(2)+"/kWh":"&ndash;")+"</td></tr>"; });
   document.getElementById("cat").innerHTML = h;
 }
